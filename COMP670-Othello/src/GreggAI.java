@@ -2,8 +2,9 @@ import java.util.ArrayList;
 
 public class GreggAI implements OthelloAI {
 
-	int depth = 2;
+	int depth = 5;
 	Boolean finalState = false; //need to figure out
+    Boolean isBlack = null;
 	
 	OthelloGameState originalState;
 	int originalStatesSize = 0;
@@ -12,9 +13,10 @@ public class GreggAI implements OthelloAI {
 	@Override
 	public OthelloMove chooseMove(OthelloGameState state) {
 		originalState = state.clone();
+		isBlack = PlayerColor(state);
 		ArrayList<OthelloGameState> originalStates = GeneratePossibleMoveStates(state);
 		originalStatesSize = originalStates.size();
-		int[][] originalStatesMoves = GenerateMoves(state);
+		int[][] originalStatesMoves = GenerateMoves(originalState);
 		int[] stateValues = new int[originalStates.size()];
 		for(int i = 0; i < originalStates.size(); i++) 
 		{
@@ -91,7 +93,8 @@ public class GreggAI implements OthelloAI {
 		ArrayList<OthelloGameState> states;
 		int[] stateValues = null;
 		int eval = 0;
-		Boolean isBlack = PlayerColor();
+		
+		Boolean blackTurn = state.isBlackTurn();
 		if (depth == 0 || finalState) 
 		{
 			int scoreDiff = state.getBlackScore() - state.getWhiteScore();
@@ -125,7 +128,7 @@ public class GreggAI implements OthelloAI {
 		}
 		else 
 		{
-			if (state.isBlackTurn() && isBlack || !state.isBlackTurn() && !isBlack ) 
+			if ((blackTurn && isBlack) || (!blackTurn && !isBlack)) 
 			{
 				states = GeneratePossibleMoveStates(state); 
 				stateValues = new int[states.size()];
@@ -198,8 +201,8 @@ public class GreggAI implements OthelloAI {
 		return move;
 	}
 
-	private Boolean PlayerColor() {
-		if (originalState.isBlackTurn()) {
+	private Boolean PlayerColor(OthelloGameState state) {
+		if (state.isBlackTurn()) {
 			return true;
 		}
 		else {
