@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class GreggAI implements OthelloAI {
+public class GreggAI2 implements OthelloAI {
 
 	int depth = 7;
 	Boolean finalState = false; //need to figure out
@@ -17,10 +17,11 @@ public class GreggAI implements OthelloAI {
 		ArrayList<OthelloGameState> originalStates = GeneratePossibleMoveStates(state);
 		originalStatesSize = originalStates.size();
 		int[][] originalStatesMoves = GenerateMoves(originalState);
-		int[] stateValues = new int[originalStates.size()];
-		for(int i = 0; i < originalStates.size(); i++) 
+		int[] stateValues = new int[originalStates.size()/2];
+		for(int i = 0; i < originalStates.size()/2; i++) 
 		{
-			OthelloGameState fetchedState = originalStates.get(i);
+			int rand = (int) Math.floor(Math.random() * originalStates.size());
+			OthelloGameState fetchedState = originalStates.get(rand);
 			stateValues[i] = search(fetchedState, depth - 1);
 		}
 		OthelloMove bestMove = BestMove(stateValues, originalStatesMoves);
@@ -95,6 +96,7 @@ public class GreggAI implements OthelloAI {
 		int eval = 0;
 		
 		Boolean blackTurn = state.isBlackTurn();
+		finalState = state.gameIsOver();
 		if (depth == 0 || finalState) 
 		{
 			int scoreDiff = state.getBlackScore() - state.getWhiteScore();
@@ -131,22 +133,43 @@ public class GreggAI implements OthelloAI {
 			if ((blackTurn && isBlack) || (!blackTurn && !isBlack)) 
 			{
 				states = GeneratePossibleMoveStates(state); 
-				stateValues = new int[states.size()];
-				for(int i = 0; i < states.size(); i++) 
+				stateValues = new int[states.size()/2];
+				for(int i = 0; i < states.size()/2; i++) 
 				{
-					OthelloGameState fetchedState = states.get(i);
-					stateValues[i] = search(fetchedState, depth - 1);
+					int rand = (int) Math.floor(Math.random() * states.size());
+					OthelloGameState fetchedState = states.get(rand);
+					int num = search(fetchedState, depth - 1);
+					if (num == 1 || num == 0) 
+					{
+						eval = num;
+						break;
+					} 
+					else 
+					{
+						stateValues[i] = num;
+					}
+					
 				}
 				eval = LargestNum(stateValues);
 			} 
 			else 
 			{
 				states = GeneratePossibleMoveStates(state); 
-				stateValues = new int[states.size()];
-				for(int i = 0; i < states.size(); i++) 
+				stateValues = new int[states.size()/2];
+				for(int i = 0; i < states.size()/2; i++) 
 				{
-					OthelloGameState fetchedState = states.get(i);
-					stateValues[i] = search(fetchedState, depth - 1);
+					int rand = (int) Math.floor(Math.random() * states.size());
+					OthelloGameState fetchedState = states.get(rand);
+					int num = search(fetchedState, depth - 1);
+					if (num == -1 || num == 0) 
+					{
+						eval = num;
+						break;
+					} 
+					else 
+					{
+						stateValues[i] = num;
+					}
 				}
 				eval = SmallestNum(stateValues);
 			}
