@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class GreggAI2 implements OthelloAI {
 
-	int depth = 30;
+	int depth = 6;
 	Boolean finalState = false; //need to figure out
     Boolean isBlack = null;
 	
@@ -132,13 +132,13 @@ public class GreggAI2 implements OthelloAI {
 			if ((blackTurn && isBlack) || (!blackTurn && !isBlack)) 
 			{
 				states = GeneratePossibleMoveStates(state); 
-				stateValues = new int[states.size()/2];
-				for(int i = 0; i < states.size()/2; i++) 
+				stateValues = new int[states.size()];
+				for(int i = 0; i < states.size(); i++) 
 				{
 					int rand = (int) Math.floor(Math.random() * states.size());
 					OthelloGameState fetchedState = states.get(rand);
 					int num = search(fetchedState, depth - 1);
-					if (num == 1 || num == 0) 
+					if (num == 1) 
 					{
 						eval = num;
 						break;
@@ -154,13 +154,13 @@ public class GreggAI2 implements OthelloAI {
 			else 
 			{
 				states = GeneratePossibleMoveStates(state); 
-				stateValues = new int[states.size()/2];
-				for(int i = 0; i < states.size()/2; i++) 
+				stateValues = new int[states.size()];
+				for(int i = 0; i < states.size(); i++) 
 				{
 					int rand = (int) Math.floor(Math.random() * states.size());
 					OthelloGameState fetchedState = states.get(rand);
 					int num = search(fetchedState, depth - 1);
-					if (num == -1 || num == 0) 
+					if (num == -1) 
 					{
 						eval = num;
 						break;
