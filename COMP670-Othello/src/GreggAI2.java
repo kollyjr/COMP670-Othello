@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class GreggAI2 implements OthelloAI {
 
-	int depth = 7;
+	int depth = 60;
 	Boolean finalState = false; //need to figure out
     Boolean isBlack = null;
 	
@@ -94,7 +94,6 @@ public class GreggAI2 implements OthelloAI {
 		ArrayList<OthelloGameState> states;
 		int[] stateValues = null;
 		int eval = 0;
-		
 		Boolean blackTurn = state.isBlackTurn();
 		finalState = state.gameIsOver();
 		if (depth == 0 || finalState) 
@@ -184,7 +183,7 @@ public class GreggAI2 implements OthelloAI {
 		int largest = 2;
 		for(int i = 0; i < stateValues.length; i++) 
 		{
-			if(largest == 100) 
+			if(largest == 2) 
 			{
 				largest = stateValues[i];
 			}
