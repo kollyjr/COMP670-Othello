@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class GreggAI2 implements OthelloAI {
 
-	int depth = 60;
+	int depth = 30;
 	Boolean finalState = false; //need to figure out
     Boolean isBlack = null;
 	
@@ -17,8 +17,8 @@ public class GreggAI2 implements OthelloAI {
 		ArrayList<OthelloGameState> originalStates = GeneratePossibleMoveStates(state);
 		originalStatesSize = originalStates.size();
 		int[][] originalStatesMoves = GenerateMoves(originalState);
-		int[] stateValues = new int[originalStates.size()/2];
-		for(int i = 0; i < originalStates.size()/2; i++) 
+		int[] stateValues = new int[originalStates.size()];
+		for(int i = 0; i < originalStates.size(); i++) 
 		{
 			int rand = (int) Math.floor(Math.random() * originalStates.size());
 			OthelloGameState fetchedState = originalStates.get(rand);
