@@ -15,40 +15,53 @@ public class HenryAI implements OthelloAI {
             AIColor = state.isBlackTurn() ? OthelloCell.BLACK : OthelloCell.WHITE;
         }
 
-        // generate a list of used cells, saves computation time
+        // from the list of possible moves generate the best move
+        return selectMove(state, 12);
+    };
+
+    private int evaluate(OthelloGameState state, int mx, int my, int depth) {
+
+        if (state.isValidMove(mx, my) == false) {
+            return 0;
+        }
+
+        state.makeMove(mx, my);
+        int score = (AIColor == OthelloCell.BLACK ? state.getBlackScore() : state.getWhiteScore());
+
+        // edges are valuable give them a boost
+        if (mx == 0 || mx == 7 || my == 0 || my == 7) {
+            score += 5;
+        }
+        
         for (int i = 0; i < 8 * 8; i++) {
+            OthelloGameState clone = state.clone();
             int x = Math.abs(i / 8);
             int y = (i % 8);
-
             if (state.isValidMove(x, y) == false) {
                 continue;
             }
 
-            possibleMoves.put(i, i);
+            score = depth > 0 ? evaluate(clone, x, y, --depth) : score;
         }
 
-        // from the list of possible moves generate the best move
-        return selectMove(state);
-    };
+        return score;
+    }
 
-    private OthelloMove selectMove(OthelloGameState state) {
+    private OthelloMove selectMove(OthelloGameState state, int depth) {
 
         int score = 0;
         OthelloMove move = null;
 
-        for (Integer i : possibleMoves.keySet()) {
+        for (int i = 0; i < 8 * 8; i++) {
+            OthelloGameState clone = state.clone();
             int x = Math.abs(i / 8);
             int y = (i % 8);
 
-            OthelloGameState clone = state.clone();
-            int current_score = AIColor == OthelloCell.BLACK ? clone.getBlackScore() : clone.getWhiteScore();
-            clone.makeMove(x, y);
-            int updated_score = AIColor == OthelloCell.BLACK ? clone.getBlackScore() : clone.getWhiteScore();
-            if (updated_score - current_score >= score) {
-                score = updated_score - current_score;
+            int evaluated_score = evaluate(clone, x, y, depth);
+            if (evaluated_score > score) {
+                score = evaluated_score;
                 move = new OthelloMove(x, y);
             }
-
         }
 
         return move;
