@@ -20,8 +20,7 @@ public class GreggAI2 implements OthelloAI {
 		int[] stateValues = new int[originalStates.size()];
 		for(int i = 0; i < originalStates.size(); i++) 
 		{
-			int rand = (int) Math.floor(Math.random() * originalStates.size());
-			OthelloGameState fetchedState = originalStates.get(rand);
+			OthelloGameState fetchedState = originalStates.get(i);
 			stateValues[i] = search(fetchedState, depth - 1);
 		}
 		OthelloMove bestMove = BestMove(stateValues, originalStatesMoves);
@@ -135,8 +134,7 @@ public class GreggAI2 implements OthelloAI {
 				stateValues = new int[states.size()];
 				for(int i = 0; i < states.size(); i++) 
 				{
-					int rand = (int) Math.floor(Math.random() * states.size());
-					OthelloGameState fetchedState = states.get(rand);
+					OthelloGameState fetchedState = states.get(i);
 					int num = search(fetchedState, depth - 1);
 					if (num == 1) 
 					{
@@ -157,8 +155,7 @@ public class GreggAI2 implements OthelloAI {
 				stateValues = new int[states.size()];
 				for(int i = 0; i < states.size(); i++) 
 				{
-					int rand = (int) Math.floor(Math.random() * states.size());
-					OthelloGameState fetchedState = states.get(rand);
+					OthelloGameState fetchedState = states.get(i);
 					int num = search(fetchedState, depth - 1);
 					if (num == -1) 
 					{
