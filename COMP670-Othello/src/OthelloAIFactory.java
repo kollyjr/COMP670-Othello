@@ -20,6 +20,6 @@ public class OthelloAIFactory
 		// your student ID#), and call whatever constructor is appropriate.
 		//
 
-		return new HenryAI();	//enables program to compile w/o an AI (2 humans can play, though)
+		return new GreggAI2();	//enables program to compile w/o an AI (2 humans can play, though)
 	}
 }

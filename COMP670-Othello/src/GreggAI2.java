@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class GreggAI2 implements OthelloAI {
 
-	int depth = 6;
+	int depth = 0; //
 	Boolean finalState = false; //need to figure out
     Boolean isBlack = null;
 	
@@ -21,7 +21,7 @@ public class GreggAI2 implements OthelloAI {
 		for(int i = 0; i < originalStates.size(); i++) 
 		{
 			OthelloGameState fetchedState = originalStates.get(i);
-			stateValues[i] = search(fetchedState, depth - 1);
+			stateValues[i] = search(fetchedState, depth);
 		}
 		OthelloMove bestMove = BestMove(stateValues, originalStatesMoves);
 		return bestMove;
